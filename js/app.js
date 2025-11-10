@@ -4,14 +4,24 @@ const monthsOutput = document.getElementById('months-output');
 const daysOutput = document.getElementById('days-output');
 
 dateForm.addEventListener('submit', handleSubmit);
-
 const now = new Date();
-console.log(now.getDate(), now.getMonth() + 1, now.getFullYear());
+const today = (() => {
+  return {
+    day: now.getDate(),
+    month: now.getMonth() + 1,
+    year: now.getFullYear(),
+  };
+})();
+console.log(today);
 
 function handleSubmit(event) {
   event.preventDefault();
+  //https://developer.mozilla.org/en-US/docs/Web/API/FormData
+  const formData = new FormData(dateForm); // ett value i FormData kan inte vara ett nummer
 
-  const formData = new FormData(dateForm);
-  const res = Object.fromEntries(formData);
-  console.log(res);
+  const dateOfBirth = Object.fromEntries(formData);
+
+  //call calculate age function
+  console.log(parseInt(dateOfBirth.day));
+  console.log(dateOfBirth);
 }
