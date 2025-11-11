@@ -4,6 +4,7 @@ const monthsOutput = document.getElementById('months-output');
 const daysOutput = document.getElementById('days-output');
 
 dateForm.addEventListener('submit', handleSubmit);
+let age = {};
 const now = new Date();
 const today = (() => {
   return {
@@ -24,4 +25,13 @@ function handleSubmit(event) {
   //call calculate age function
   console.log(parseInt(dateOfBirth.day));
   console.log(dateOfBirth);
+  calculateAge(dateOfBirth);
+}
+console.log(new Date(now.getFullYear(), now.getMonth(), 0));
+
+function calculateAge(dateOfBirth) {
+  age.years = today.year - parseInt(dateOfBirth.year);
+  age.months = today.month - parseInt(dateOfBirth.month);
+  age.days = today.day - parseInt(dateOfBirth.day);
+  console.log(age);
 }
