@@ -17,13 +17,15 @@ console.log(today);
 
 function handleSubmit(event) {
   event.preventDefault();
-  //https://developer.mozilla.org/en-US/docs/Web/API/FormData
-  const formData = new FormData(dateForm);
 
+  const formData = new FormData(dateForm);
   const dateOfBirth = Object.fromEntries(formData);
 
   console.log(dateOfBirth);
   calculateAge(dateOfBirth);
+  displayAge();
+
+  dateForm.reset();
 }
 
 function calculateAge(dateOfBirth) {
@@ -31,16 +33,21 @@ function calculateAge(dateOfBirth) {
   age.months = today.month - parseInt(dateOfBirth.month);
   age.days = today.day - parseInt(dateOfBirth.day);
 
-  if (age.months < 0) {
-    age.years--;
-    age.months += 12;
-  }
-
   if (age.days < 0) {
     age.months--;
     const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
     age.days += prevMonth.getDate();
   }
 
+  if (age.months < 0) {
+    age.years--;
+    age.months += 12;
+  }
+
   console.log(age);
+}
+function displayAge() {
+  yearsOutput.innerText = age.years;
+  monthsOutput.innerText = age.months;
+  daysOutput.innerText = age.days;
 }
