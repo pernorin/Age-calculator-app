@@ -6,6 +6,7 @@ const daysOutput = document.getElementById('days-output');
 dateForm.addEventListener('submit', handleSubmit);
 let age = {};
 const now = new Date();
+///////////////////////////////
 const today = (() => {
   return {
     day: now.getDate(),
@@ -14,6 +15,9 @@ const today = (() => {
   };
 })();
 console.log(today);
+//////////////////////////////////////7
+// const testDate = new Date(2000, 10, 60);
+// console.log('test:', testDate.toLocaleDateString('sv-SE'));
 
 function handleSubmit(event) {
   event.preventDefault();
@@ -22,10 +26,33 @@ function handleSubmit(event) {
   const dateOfBirth = Object.fromEntries(formData);
 
   console.log(dateOfBirth);
+  validateDate(dateOfBirth);
   calculateAge(dateOfBirth);
   displayAge();
 
-  dateForm.reset();
+  //dateForm.reset();
+}
+
+function validateDate(dateOfBirth) {
+  const day = dateOfBirth.day;
+  const month = dateOfBirth.month - 1;
+  const year = dateOfBirth.year;
+
+  const testDate = new Date(year, month, day);
+
+  if (year > now.getFullYear()) {
+    console.log('FEL ÅR');
+  }
+  if (month > 11 || month < 0) {
+    console.log('FEL MÅNAD');
+  }
+  if (testDate.getMonth() != month) {
+    console.log('FEL DAGAR');
+  }
+  console.log(day, month, year);
+  console.log(testDate, 'm:', month);
+
+  // kanske return boolean?
 }
 
 function calculateAge(dateOfBirth) {
