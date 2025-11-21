@@ -7,14 +7,14 @@ dateForm.addEventListener('submit', handleSubmit);
 let age = {};
 const now = new Date();
 ///////////////////////////////
-const today = (() => {
-  return {
-    day: now.getDate(),
-    month: now.getMonth() + 1,
-    year: now.getFullYear(),
-  };
-})();
-console.log(today);
+// const today = (() => {
+//   return {
+//     day: now.getDate(),
+//     month: now.getMonth() + 1,
+//     year: now.getFullYear(),
+//   };
+// })();
+// console.log(today);
 //////////////////////////////////////7
 // const testDate = new Date(2000, 10, 60);
 // console.log('test:', testDate.toLocaleDateString('sv-SE'));
@@ -49,16 +49,22 @@ function validateDate(dateOfBirth) {
   if (testDate.getMonth() != month) {
     console.log('FEL DAGAR');
   }
+  if (day > 31) {
+    console.log('INTE ETT DATUM');
+  }
   console.log(day, month, year);
-  console.log(testDate, 'm:', month);
+  console.log(testDate);
 
   // kanske return boolean?
 }
 
 function calculateAge(dateOfBirth) {
-  age.years = today.year - parseInt(dateOfBirth.year);
-  age.months = today.month - parseInt(dateOfBirth.month);
-  age.days = today.day - parseInt(dateOfBirth.day);
+  // age.years = today.year - parseInt(dateOfBirth.year);
+  // age.months = today.month - parseInt(dateOfBirth.month);
+  // age.days = today.day - parseInt(dateOfBirth.day);
+  age.years = now.getFullYear() - parseInt(dateOfBirth.year);
+  age.months = now.getMonth() + 1 - parseInt(dateOfBirth.month);
+  age.days = now.getDate() - parseInt(dateOfBirth.day);
 
   if (age.days < 0) {
     age.months--;
