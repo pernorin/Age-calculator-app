@@ -18,11 +18,11 @@ const now = new Date();
 //////////////////////////////////////7
 // const testDate = new Date(2000, 10, 60);
 // console.log('test:', testDate.toLocaleDateString('sv-SE'));
-console.log(dateForm['year']);
 
 function handleSubmit(event) {
   event.preventDefault();
 
+  removeError();
   const formData = new FormData(dateForm);
   const dateOfBirth = Object.fromEntries(formData);
 
@@ -31,20 +31,46 @@ function handleSubmit(event) {
 
   if (!validationError) {
     calculateAge(dateOfBirth);
-    displayAge();
   }
-
+  displayAge(validationError);
   //dateForm.reset();
 }
 function displayError(inputElement, message) {
-  console.log(inputElement, message);
-  console.log(typeof inputElement);
-
   const errorOutput = document.createElement('span');
   errorOutput.classList.add('errorOutput');
   errorOutput.innerText = message;
 
   dateForm[inputElement].insertAdjacentElement('afterend', errorOutput);
+}
+function removeError() {
+  const errorElements = document.getElementsByClassName('errorOutput');
+  console.log(errorElements);
+
+  for (let i = 0; i < errorElements.length; i++) {
+    errorElements[i].remove();
+    console.log(i);
+    
+  }
+
+  /*************
+   Fungerar inte riktigt
+
+   https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementsByClassName
+  
+  **************/
+
+
+  /*
+  if (errorElements.length > 0) {
+    for(let i = 0; i<errorElements.length; i++){
+      errorElements[i].remove();
+    }
+
+  //   errorElements.forEach((element) => {
+  //     element.remove();
+  //   });
+  }
+  */
 }
 
 function validateDate(dateOfBirth) {
@@ -54,31 +80,30 @@ function validateDate(dateOfBirth) {
 
   const testDate = new Date(year, month, day);
 
+  // removeError();
   let hasError = false;
 
   if (year > now.getFullYear()) {
-    console.log('FEL ÅR');
     displayError('year', 'Must be in the past');
     hasError = true;
   }
   if (month > 11 || month < 0) {
-    console.log('FEL MÅNAD');
     displayError('month', 'Must be a valid month');
     hasError = true;
   }
   if (day > 31) {
-    console.log('INTE ETT DATUM');
     displayError('day', 'Must be a valid day');
     hasError = true;
-  } else if (testDate.getMonth() != month) {
-    console.log('FEL DAGAR');
+  } else if (testDate.getMonth() != month && month < 12) {
     displayError('day', 'Must be a valid date');
     hasError = true;
   }
+  // if (!hasError) {
+  //   removeError();
+  // }
   console.log(day, month, year);
   console.log(testDate);
 
-  // kanske return boolean?
   return hasError;
 }
 
@@ -103,8 +128,14 @@ function calculateAge(dateOfBirth) {
 
   console.log(age);
 }
-function displayAge() {
-  yearsOutput.innerText = age.years;
-  monthsOutput.innerText = age.months;
-  daysOutput.innerText = age.days;
+function displayAge(validationError) {
+  if (validationError) {
+    yearsOutput.innerText = '--';
+    monthsOutput.innerText = '--';
+    daysOutput.innerText = '--';
+  } else {
+    yearsOutput.innerText = age.years;
+    monthsOutput.innerText = age.months;
+    daysOutput.innerText = age.days;
+  }
 }
