@@ -18,6 +18,7 @@ const now = new Date();
 //////////////////////////////////////7
 // const testDate = new Date(2000, 10, 60);
 // console.log('test:', testDate.toLocaleDateString('sv-SE'));
+console.log(dateForm['year']);
 
 function handleSubmit(event) {
   event.preventDefault();
@@ -26,11 +27,24 @@ function handleSubmit(event) {
   const dateOfBirth = Object.fromEntries(formData);
 
   console.log(dateOfBirth);
-  validateDate(dateOfBirth);
-  calculateAge(dateOfBirth);
-  displayAge();
+  const validationError = validateDate(dateOfBirth);
+
+  if (!validationError) {
+    calculateAge(dateOfBirth);
+    displayAge();
+  }
 
   //dateForm.reset();
+}
+function displayError(inputElement, message) {
+  console.log(inputElement, message);
+  console.log(typeof inputElement);
+
+  const errorOutput = document.createElement('span');
+  errorOutput.classList.add('errorOutput');
+  errorOutput.innerText = message;
+
+  dateForm[inputElement].insertAdjacentElement('afterend', errorOutput);
 }
 
 function validateDate(dateOfBirth) {
@@ -40,22 +54,32 @@ function validateDate(dateOfBirth) {
 
   const testDate = new Date(year, month, day);
 
+  let hasError = false;
+
   if (year > now.getFullYear()) {
     console.log('FEL ÅR');
+    displayError('year', 'Must be in the past');
+    hasError = true;
   }
   if (month > 11 || month < 0) {
     console.log('FEL MÅNAD');
-  }
-  if (testDate.getMonth() != month) {
-    console.log('FEL DAGAR');
+    displayError('month', 'Must be a valid month');
+    hasError = true;
   }
   if (day > 31) {
     console.log('INTE ETT DATUM');
+    displayError('day', 'Must be a valid day');
+    hasError = true;
+  } else if (testDate.getMonth() != month) {
+    console.log('FEL DAGAR');
+    displayError('day', 'Must be a valid date');
+    hasError = true;
   }
   console.log(day, month, year);
   console.log(testDate);
 
   // kanske return boolean?
+  return hasError;
 }
 
 function calculateAge(dateOfBirth) {

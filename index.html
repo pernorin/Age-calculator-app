@@ -27,7 +27,7 @@
   </head>
   <body>
     <main>
-      <form id="date-form">
+      <form id="date-form" novalidate>
         <div>
           <label for="day">day</label>
           <input
@@ -35,10 +35,9 @@
             type="number"
             id="day"
             name="day"
-            
             placeholder="DD"
-          /><!-- min="1"
-            max="31" -->
+          />
+          <!-- <span class="errorOutput"></span> -->
         </div>
         <div>
           <label for="month">month</label>
@@ -47,14 +46,18 @@
             type="number"
             id="month"
             name="month"
-            
             placeholder="MM"
-          /><!-- min="01"
-            max="12" -->
+          />
         </div>
         <div>
-          <label for="day">year</label>
-          <input type="number" id="year" name="year" min="1" placeholder="YYYY" />
+          <label for="year">year</label>
+          <input
+            type="number"
+            id="year"
+            name="year"
+            min="1"
+            placeholder="YYYY"
+          />
         </div>
         <button type="submit">+</button>
       </form>

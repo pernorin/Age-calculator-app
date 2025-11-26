@@ -3,3 +3,10 @@
 	margin: 0;
 	padding: 0;
 }
+
+.errorOutput{
+  width: 1rem;
+  height: 1rem;
+  background-color: red;
+  display: inline-block;
+}
