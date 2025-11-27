@@ -30,9 +30,9 @@ function handleSubmit(event) {
 
   if (!validationError) {
     calculateAge(dateOfBirth);
+    dateForm.reset();
   }
   displayAge(validationError);
-  //dateForm.reset();
 }
 function displayError(inputElement, message) {
   const errorOutput = document.createElement('span');
@@ -59,15 +59,26 @@ function validateDate(dateOfBirth) {
   removeErrors();
   let hasError = false;
 
-  if (year > now.getFullYear()) {
+  if (year === '') {
+    displayError('year', 'This field is required');
+    hasError = true;
+  } else if (year > now.getFullYear()) {
     displayError('year', 'Must be in the past');
     hasError = true;
   }
-  if (month > 11 || month < 0) {
+
+  if (dateOfBirth.month === '') {
+    displayError('month', 'This field is required');
+    hasError = true;
+  } else if (month > 11 || month < 0) {
     displayError('month', 'Must be a valid month');
     hasError = true;
   }
-  if (day > 31) {
+
+  if (day === '') {
+    displayError('day', 'This field is required');
+    hasError = true;
+  } else if (day > 31) {
     displayError('day', 'Must be a valid day');
     hasError = true;
   } else if (testDate.getMonth() != month && month < 12) {
