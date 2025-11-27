@@ -22,7 +22,6 @@ const now = new Date();
 function handleSubmit(event) {
   event.preventDefault();
 
-  removeError();
   const formData = new FormData(dateForm);
   const dateOfBirth = Object.fromEntries(formData);
 
@@ -42,35 +41,12 @@ function displayError(inputElement, message) {
 
   dateForm[inputElement].insertAdjacentElement('afterend', errorOutput);
 }
-function removeError() {
+function removeErrors() {
   const errorElements = document.getElementsByClassName('errorOutput');
-  console.log(errorElements);
 
-  for (let i = 0; i < errorElements.length; i++) {
-    errorElements[i].remove();
-    console.log(i);
-    
+  while (errorElements[0]) {
+    errorElements[0].remove();
   }
-
-  /*************
-   Fungerar inte riktigt
-
-   https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementsByClassName
-  
-  **************/
-
-
-  /*
-  if (errorElements.length > 0) {
-    for(let i = 0; i<errorElements.length; i++){
-      errorElements[i].remove();
-    }
-
-  //   errorElements.forEach((element) => {
-  //     element.remove();
-  //   });
-  }
-  */
 }
 
 function validateDate(dateOfBirth) {
@@ -80,7 +56,7 @@ function validateDate(dateOfBirth) {
 
   const testDate = new Date(year, month, day);
 
-  // removeError();
+  removeErrors();
   let hasError = false;
 
   if (year > now.getFullYear()) {
@@ -98,9 +74,6 @@ function validateDate(dateOfBirth) {
     displayError('day', 'Must be a valid date');
     hasError = true;
   }
-  // if (!hasError) {
-  //   removeError();
-  // }
   console.log(day, month, year);
   console.log(testDate);
 
