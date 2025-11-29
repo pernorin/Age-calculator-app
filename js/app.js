@@ -30,7 +30,10 @@ function handleSubmit(event) {
 
   if (!validationError) {
     calculateAge(dateOfBirth);
+    dateForm.classList.remove('error');
     dateForm.reset();
+  }else{
+    dateForm.classList.add('error');
   }
   displayAge(validationError);
 }
