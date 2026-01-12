@@ -31,8 +31,8 @@ function handleSubmit(event) {
   if (!validationError) {
     calculateAge(dateOfBirth);
     dateForm.classList.remove('error');
-    dateForm.reset();
-  }else{
+    // dateForm.reset(); // Ska inte rensas!
+  } else {
     dateForm.classList.add('error');
   }
   displayAge(validationError);
@@ -115,14 +115,34 @@ function calculateAge(dateOfBirth) {
 
   console.log(age);
 }
+
+function animateNumber(output, period) {
+  let initialValue = 0;
+  if (age[period] > 0) {
+    let counter = setInterval(function () {
+      output.innerText = ++initialValue;
+      if (initialValue === age[period]) {
+        clearInterval(counter);
+      }
+    }, 10);
+  } else {
+    output.innerText = 0;
+  }
+}
+
 function displayAge(validationError) {
   if (validationError) {
     yearsOutput.innerText = '--';
     monthsOutput.innerText = '--';
     daysOutput.innerText = '--';
   } else {
+    animateNumber(yearsOutput, 'years');
+    animateNumber(monthsOutput, 'months');
+    animateNumber(daysOutput, 'days');
+    /*
     yearsOutput.innerText = age.years;
     monthsOutput.innerText = age.months;
     daysOutput.innerText = age.days;
+    */
   }
 }
